@@ -9,6 +9,7 @@ before_install:
     - conda create --yes -n test
     - conda activate test
     - conda install --yes python=3.6
-
+    - conda install -y -c r r-essentials=3.5.1
+    - conda install -y -c bioconda r-sleuth
 script:
     - bash run.sh
