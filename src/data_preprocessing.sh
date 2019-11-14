@@ -10,4 +10,4 @@ mv ./data/GSM1944906_EA07068_332444_MOGENE-1_0-ST-V1_12.BB.SP3H.IFN_1.CEL \
 ./data/GSM1944906_EA07068_332444_MOGENE.1_0.ST.V1_12.BB.SP.3H.IFN_1.CEL
 
 echo Converting and annotating the count table ...
-rscript ./src/data_preprocessing.r
+Rscript ./src/data_preprocessing.r

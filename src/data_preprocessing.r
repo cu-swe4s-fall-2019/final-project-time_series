@@ -1,6 +1,5 @@
 source("http://bioconductor.org/biocLite.R")
 
-
 # Load or install required packages
 if (require("affy") == FALSE) {
     BiocInstaller::biocLite("affy")
