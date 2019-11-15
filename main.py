@@ -112,7 +112,9 @@ def plot_heatmap(counts, num_genes):
     df_norm_row=select_counts.sub(select_counts.mean(axis=1), axis=0)
     # 2: divide by standard dev
     df_norm_row=df_norm_row.div(select_counts.std(axis=1), axis=0 )
-    xlabel = [x.strip('.IFN_1') for x in select_counts.columns]
+    xlabel = [x.replace('.IFN_1','') for x in select_counts.columns]
+    xlabel = [x.replace('H',' hr') for x in xlabel]
+
     ax = sns.clustermap(df_norm_row,
                      metric="correlation", col_cluster=False,
                      xticklabels=xlabel,
