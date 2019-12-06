@@ -10,3 +10,8 @@ This will download the raw data from NCBI GEO database, extract raw data from CE
 ## Data
 Mouse B cells were treated with Interferon alpha over a time course, the gene expression over time is normalized and visualized in the plot below:
 ![](gene_heatmap.png)
+
+
+## Cluster
+
+![](Results_05_Dec_19_1/Clusters_profiles.pdf)
