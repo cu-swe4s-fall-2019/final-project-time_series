@@ -1,0 +1,3 @@
+[submodule "data/clust"]
+	path = data/clust
+	url = https://github.com/BaselAbujamous/clust.git
