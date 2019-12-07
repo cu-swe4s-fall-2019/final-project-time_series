@@ -1,18 +1,20 @@
-source("http://bioconductor.org/biocLite.R")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager", repos = "http://cran.us.r-project.org")
+BiocManager::install(version = "3.10")
 
 # Load or install required packages
-if (require("affy") == FALSE) {
-    BiocInstaller::biocLite("affy")
+if (!requireNamespace("affy", quietly = TRUE)) {
+    BiocManager::install("affy")
     require("affy")}
-if (require("oligo") == FALSE) {
-    BiocInstaller::biocLite("oligo")
+if (!requireNamespace("oligo", quietly = TRUE)) {
+    BiocManager::install("oligo")
     require("oligo")}
-if (require("limma") == FALSE) {
-    BiocInstaller::biocLite("limma")
+if (!requireNamespace("limma", quietly = TRUE)) {
+    BiocManager::install("limma")
     require("limma")}
 
-if (require("mogene10sttranscriptcluster.db") == FALSE) {
-    BiocInstaller::biocLite("mogene10sttranscriptcluster.db")
+if (!requireNamespace("mogene10sttranscriptcluster.db", quietly = TRUE)) {
+    BiocManager::install("mogene10sttranscriptcluster.db")
     require("mogene10sttranscriptcluster.db")}
 
 # function to extract mapped affyix matrix probe countent from db
