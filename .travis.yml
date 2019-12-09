@@ -13,7 +13,7 @@ before_install:
     - conda install --yes python=3.6
     - conda install -y numpy
     - conda install -y pandas
-    - conda install -c bioconda clust
+    - conda install -y -c bioconda clust
     - conda install -y subprocess
     - conda install -y matplotlib
     - conda install -y seaborn
