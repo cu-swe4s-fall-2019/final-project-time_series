@@ -1,24 +1,31 @@
 import argparse
 import sys
 import os
+import pandas as pd
+import pybedtools
+import subprocess
 
-
-def gene_fetcher(gene_list, bedfile, upstream, downstream):
+def gene_fetcher(gene_list, promoter_output, bedfile, upstream, downstream, fasta_file):
     # takes an input list and fetches the genomic location, returning the promoter
     # of each gene
 
-    genes = open(gene_list)
-    output = open("promoter_file.bed", 'w')
+    genes = gene_list
+    output = open(promoter_output, 'w')
+    i = 0
     for line in genes:
         g = line.rstrip()
+        if i == 0:
+            i += 1
+            continue
         f = open(bedfile)
         for l in f:
+            # Standard BED format for bed6
             sample_line = l.rstrip().split('\t')
-            gene_name_index = 0
-            chr_index = 1
-            start_index = 2
-            stop_index = 3
-            strand_index = 4
+            gene_name_index = 3
+            chr_index = 0
+            start_index = 1
+            stop_index = 2
+            strand_index = 5
             gene = sample_line[gene_name_index]
             if gene == g:
                 # if the gene matches, write the promoter to a file
@@ -27,15 +34,23 @@ def gene_fetcher(gene_list, bedfile, upstream, downstream):
                     prom_end = int(sample_line[stop_index]) - downstream
                     if prom_end < 1:
                         prom_end = 1
-                    string = gene + '\t' + str(prom_end) + '\t' + str(prom_start) + '\t' + '-' + '\n'
-                    output.write(string)
+                    string =  sample_line[chr_index] + '\t' + str(prom_end) +\
+                              '\t' + str(prom_start) + '\t' + gene + '\t' + '1' + '\t' + '-' + '\n'                 
+                    a = pybedtools.BedTool(string, from_string=True)
+                    a = a.sequence(fi = fasta_file)
+                    final = open(a.seqfn).read()
+                    output.write(final)
                 if sample_line[strand_index] == '+':
                     prom_start = int(sample_line[start_index]) - upstream
                     if prom_start < 1:
                         prom_start = 1
                     prom_end = int(sample_line[start_index]) + downstream
-                    string = gene + '\t' + str(prom_start) + '\t' + str(prom_end) + '\t' + '+' + '\n'
-                    output.write(string)
+                    string = sample_line[chr_index] +'\t' + str(prom_start) + '\t' + str(prom_end) +\
+                             '\t' + gene + '\t' + '1' + '\t' + '+' + '\n'
+                    a = pybedtools.BedTool(string, from_string=True)
+                    a = a.sequence(fi = fasta_file)
+                    final = open(a.seqfn).read()
+                    output.write(final)
     output.close()
     # sys.exit(0)
 
@@ -67,11 +82,27 @@ def main():
                         help='list of input genes',
                         required=True)
 
+    parser.add_argument('--fasta',
+                        type=str,
+                        help='genome in fasta format',
+                        required=True)
+    parser.add_argument('--motif_file',
+                        type=str,
+                        help='motifs in MEME format',
+                        required=True)
+
     args = parser.parse_args()
     
     
+    df = pd.read_csv(args.input_genes, sep='\t')
+    for i in df.columns:
+        a = df[i].tolist()
+        cleanedlist = [x for x in a if str(x) != 'nan']
+        outname = str(i).replace(" ", "_")
+        gene_fetcher(cleanedlist, outname + '_promoters.bed', args.bedfile, args.upstream_distance, args.downstream_distance, args.fasta)
+        outfile = outname + '_promoters.bed'
+        subprocess.check_call(['./ame_runner.sh', outfile, args.motif_file])
 
-    gene_fetcher(args.input_genes, args.bedfile, args.upstream_distance, args.downstream_distance)
 
 if __name__ == '__main__':
     main()
