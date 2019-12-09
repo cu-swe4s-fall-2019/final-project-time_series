@@ -14,10 +14,10 @@ before_install:
     - conda install -y numpy
     - conda install -y pandas
     - conda install -y -c bioconda clust
-    - conda install -y subprocess
+    - conda install -y -c omnia subprocess32
     - conda install -y matplotlib
-    - conda install -y seaborn
-    - conda install -y scikit-learn
+    - conda install -y -c anaconda seaborn
+    - conda install -y -c anaconda scikit-learn
 
 script:
     python main.py
