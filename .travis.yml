@@ -15,9 +15,11 @@ before_install:
     - conda install -y pandas
     - conda install -y -c bioconda clust
     - conda install -y matplotlib
+    - conda install -y -c bioconda pybedtools
     - conda install -y -c anaconda seaborn
     - conda install -y -c anaconda scikit-learn
-    - git submodule update --init
 
 script:
+    wget -O ./ref/mm10.fa.gz ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M23/GRCm38.p6.genome.fa.gz
+    gunzip ./ref/mm10.fa.gz
     python main.py
