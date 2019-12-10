@@ -40,7 +40,8 @@ def plot_heatmap(out, counts, num_genes):
     '''
     select_counts = counts.iloc[0:num_genes,1:].astype(float)
     select_counts = select_counts.sub(select_counts.iloc[:,0], axis='rows')
-    gene_names = counts.iloc[0:num_genes,1]
+    gene_names = counts['ACCNUM'].values
+    print(gene_names)
     # Normalize it by row:
     # (not sure if it is the best way, please feel free to give me a better method.)
     # 1: substract mean
@@ -54,6 +55,7 @@ def plot_heatmap(out, counts, num_genes):
         ax = sns.clustermap(df_norm_row,
                          metric="correlation", col_cluster=False,
                          xticklabels=xlabel,
+                         yticklabels=gene_names,
                          cmap="RdBu_r")
     else:
         ax = sns.clustermap(df_norm_row,

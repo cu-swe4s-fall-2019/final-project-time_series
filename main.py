@@ -117,6 +117,10 @@ def main():
     num_genes = int(args.num_genes)-1
     out_dir = args.out_dir
 
+    # plot pca
+    print('Generating PCA plot ...')
+    plot.plot_pca(out_dir, counts)
+
     # plot heatmap
     print('Generating Gene Expression Heatmap ...')
     plot.plot_heatmap(out_dir, counts, num_genes)
@@ -124,7 +128,7 @@ def main():
     # Plot gene expression tragectory
     print('Generating Gene Expression Trajectory ...')
     plot.plot_trajectory(out_dir, counts, num_genes)
-
+    sys.exit(0)
     # Save formatted and sorted count file
     counts.to_csv('data/counts_clust.txt', index = False, sep='\t')
 
