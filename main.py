@@ -33,7 +33,7 @@ def parse_args():
     parser.add_argument('-k',
                         '--kmeans',
                         type=str,
-                        help="Manually select a k for clustering",
+                        help="Optional: Manually select a k for clustering",
                         default=None,
                         required=False)
 
@@ -47,12 +47,24 @@ def parse_args():
     parser.add_argument('-a',
                         '--ame',
                         type=str2bool,
-                        help="Enable AME after installing AME",
+                        help="Enable AME after installing AME <True/False>",
                         default=False,
                         required=False)
 
     return parser.parse_args()
 
+def str2bool(v):
+    '''
+    small function for boolean input
+    '''
+    if isinstance(v, bool):
+       return v
+    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+        return True
+    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+        return False
+    else:
+        raise argparse.ArgumentTypeError('Boolean value expected.')
 
 def read_counts(countfile):
     '''
