@@ -40,6 +40,10 @@ Arguments |  Description
 -k  | Manually conduct K means clustering with specified K. This disables optimization. <Default: None>
 -n  | Number of genes to include for generating heatmap and trajectory plots <Default: 50 >
 -a  | Enable Analysis of motif enrichment (AME) <Default: False>
+-b  | Specify the RefSeq Bedfile to use <Default: ./ref/mm10.refseq.bed>
+-g  | Specify which reference genome to use <Default: ./ref/mm10.fa>
+-i  | Specify which input genes to use for motif analysis. Default will use each gene cluster from the previous step
+-m  | Specify which motif file to use, in MEME format <Default: ./ref/HOCOMOCOv11_core_MOUSE_mono_meme_format.meme>
 
 ### Analysis of Motif Enrichment
 The previous step will generate a curated promoter sequence file for each gene cluster. To carry out motif enrichment analysis, one can simply upload the promoter sequence files to [AME online server](http://meme-suite.org/tools/ame) and follow the direction on the webpage to generate the results.
