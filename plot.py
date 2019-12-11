@@ -55,6 +55,7 @@ def plot_heatmap(out, counts, num_genes):
         ax = sns.clustermap(df_norm_row,
                             metric="correlation", col_cluster=False,
                             xticklabels=xlabel,
+                            yticklabels=gene_names,
                             cmap="RdBu_r")
     else:
         ax = sns.clustermap(df_norm_row,

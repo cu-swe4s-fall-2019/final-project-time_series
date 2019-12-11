@@ -128,6 +128,7 @@ def sort_counts(in_counts):
              '3H.IFN_1', '3.5H.IFN_1', '5H.IFN_1', '5.5H.IFN_1', '6H.IFN_1',
              '6.5H.IFN_1', '7H.IFN_1', '8H.IFN_1', '9H.IFN_1', '10H.IFN_1',
              '11H.IFN_1', '12H.IFN_1', '13H.IFN_1', '14H.IFN_1', '15H.IFN_1']
+
     in_counts['SYMBOL'] = in_counts['SYMBOL'].replace([' ', ',', ';'],
                                                       '_', regex=True)
     in_counts = in_counts[order]
@@ -150,6 +151,10 @@ def main():
     num_genes = int(args.num_genes)-1
     out_dir = args.out_dir
 
+    # plot pca
+    print('Generating PCA plot ...')
+    plot.plot_pca(out_dir, counts)
+
     # plot heatmap
     print('Generating Gene Expression Heatmap ...')
     plot.plot_heatmap(out_dir, counts, num_genes)
@@ -170,6 +175,7 @@ def main():
     else:
         subprocess.call(['clust', 'data/counts_clust.txt', '-o',
                          './clust_out'])
+
 
     # Make sure everything is all set for motif enrichment
     clust_out = args.input_genes

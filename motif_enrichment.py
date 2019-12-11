@@ -11,6 +11,7 @@ def gene_fetcher(gene_list, promoter_output, bed_df,
     # takes an input list and fetches the genomic location,
     # returning the promoter of each gene
 
+
     # BED6 format
     gene_name_index = 3
     chr_index = 0
@@ -49,6 +50,7 @@ def gene_fetcher(gene_list, promoter_output, bed_df,
                 string = bed_df.iloc[gene_idx, chr_index] + '\t' +\
                     str(prom_end) + '\t' + str(prom_start) + '\t' +\
                     g + '\t' + '1' + '\t' + '-' + '\n'
+
                 a = pybedtools.BedTool(string, from_string=True)
                 a = a.sequence(fi=fasta_file)
                 final = open(a.seqfn).read()
@@ -94,7 +96,7 @@ def run_motif_enrichment(clust_out, ref_bed, ref_fa, ref_motif,
         if ame:
             try:
                 subprocess.check_call(['./ame_runner.sh', outfile, ref_motif])
-            except NameError:
+            except ImportError:
                 print('MEME Suite is not installed properly!')
         else:
             continue
