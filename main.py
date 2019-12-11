@@ -120,6 +120,10 @@ def main():
     num_genes = int(args.num_genes)-1
     out_dir = args.out_dir
 
+    # plot pca
+    print('Generating PCA plot ...')
+    plot.plot_pca(out_dir, counts)
+
     # plot heatmap
     print('Generating Gene Expression Heatmap ...')
     plot.plot_heatmap(out_dir, counts, num_genes)
