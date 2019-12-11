@@ -2,6 +2,15 @@
 This is a implementation of analysis that is geared towards analyzing time series expression data. The program will take raw read counts from time series expression data, normalize the data, cluster the genes based on expression patter, extract promoter sequences of each gene cluster and conduct motif enrichment analysis to figure out what underlying transcription factor is potentially regulating such gene expression.
 
 ## Usage
+### Program requirement
+The software uses the python package `clust` for k-means clustering. One can install `clust` by using `pip` or `conda`:
+```
+pip install clust
+```
+```
+conda install -y clust
+```
+
 ### Input count data
 The data is downloaded from NCBI GEO database (https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE75306). The data was originally generated for the publication by [Mostafavi, S., et al.](https://doi.org/10.1016/j.cell.2015.12.032). To simplify the process, the raw microarray data is processed and normalized for you. The unprocessed microarray files along with the final raw counts output can be found in `./data/`.
 
@@ -41,20 +50,29 @@ python main.py -a True
 ```
 
 # Analysis Results
-## Data
-Mouse B cells were treated with Interferon alpha over a time course, the gene expression over time is normalized and visualized in the plot below:
+## Initial Data Processing
+Mouse B cells were treated with Interferon alpha over a time course (15 minutes to 14 hours), the gene expression over time is normalized and visualized in the plot below:
+#### Heatmap of the top 50 genes that have the greatest variance across time
 ![](./out/gene_heatmap.png)
+#### Gene expression trajectory of the top 50 genes that have the greatest variance across time
 ![](./out/gene_trajectory.png)
 
 ## Clustering
-K-means clustering optimization
+The K-means clustering utilizes the python package `clust`. It uses the top 5000 genes ordered by variance across time for clustering. Overall, it undergo clustering optimization to find the optimal K that minimizes within-cluster sum of square. And use that optimal K to generate gene clusters.
+#### Demonstration of optimization of K-means clustering
 ![](./out/SSvK.png)
-Clustering results
+#### Clustering Result
+Using K-means clustering, the program is able to parse out gene expression patterns and categorized them into groups. For the discussed data set, several gene sets that undergo up-regulation, down-regulation and oscillation were identified:
 ![](./out/cluster.png)
 
 ## Motif Enrichment
+Finally, using the promoter sequences parsed out from each gene clusters, the software performs motif enrichment analysis using the AME software package from MEME suite. The screenshot of the analysis result is shown below.
 Cluster 1 gene promoter motif enrichment
 ![](./out/cluster1_enrichment.png)
-
 Cluster 4 gene promoter motif enrichment
 ![](./out/cluster4_enrichment.png)
+
+# Authors
+Qing Yang (qing.yang@colorado.edu)
+Samuel Hunter (Samuel.Hunter-1@colorado.edu)
+Chi Zhang (Chi.Zhang-6@colorado.edu)
