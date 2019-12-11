@@ -73,6 +73,6 @@ Cluster 4 gene promoter motif enrichment
 ![](./out/cluster4_enrichment.png)
 
 # Authors
-Qing Yang (qing.yang@colorado.edu)
-Samuel Hunter (Samuel.Hunter-1@colorado.edu)
-Chi Zhang (Chi.Zhang-6@colorado.edu)
+- Qing Yang (qing.yang@colorado.edu)
+- Samuel Hunter (Samuel.Hunter-1@colorado.edu)
+- Chi Zhang (Chi.Zhang-6@colorado.edu)

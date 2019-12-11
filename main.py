@@ -128,7 +128,7 @@ def main():
     # Plot gene expression tragectory
     print('Generating Gene Expression Trajectory ...')
     plot.plot_trajectory(out_dir, counts, num_genes)
-    sys.exit(0)
+
     # Save formatted and sorted count file
     counts.to_csv('data/counts_clust.txt', index = False, sep='\t')
 
