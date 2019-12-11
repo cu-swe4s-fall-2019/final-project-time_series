@@ -50,6 +50,35 @@ def parse_args():
                         help="Enable AME after installing AME <True/False>",
                         default=False,
                         required=False)
+    parser.add_argument('-b',
+                        '--bedfile',
+                        type=str,
+                        help="BED6 RefSeq gene annotation file",
+                        default='./ref/mm10.refseq.bed',
+                        required=False)
+
+    parser.add_argument('-g',
+                        '--genome',
+                        type=str,
+                        help="Genome FASTA file to pull\
+                              promoter sequences from",
+                        default='./ref/mm10.fa',
+                        required=False)
+
+    parser.add_argument('-i',
+                        '--input_genes',
+                        type=str,
+                        help="Genes for promoter analysis. Leave blank for\
+                        default output from clust",
+                        default='./clust_out/Clusters_Objects.tsv',
+                        required=False)
+
+    parser.add_argument('-m',
+                        '--motif',
+                        type=str,
+                        help="Motif file in MEME format",
+                        default='./ref/HOCOMOCOv11_core_MOUSE_mono_meme_format.meme',
+                        required=False)
 
     return parser.parse_args()
 
@@ -146,10 +175,10 @@ def main():
                         '-o', './clust_out'])
 
     # Make sure everythin is all set for motif enrichment
-    clust_out = './clust_out/Clusters_Objects.tsv'
-    ref_bed = './ref/mm10.refseq.bed'
-    ref_fa = './ref/mm10.fa'
-    ref_motif = './ref/HOCOMOCOv11_core_MOUSE_mono_meme_format.meme'
+    clust_out = args.input_genes
+    ref_bed = args.bedfile
+    ref_fa = args.genome
+    ref_motif = args.motif
 
     try:
         open(clust_out)
@@ -158,11 +187,14 @@ def main():
               + 'Clusters_Objects.tsv not found in the output directory')
 
     print('Motif Enrichment Analysis (this might take awhile) ...')
-    enrichment.run_motif_enrichment(clust_out,
-                                    ref_bed,
-                                    ref_fa, ref_motif,
-                                    args.ame,
-                                    100, 100)
+    try:
+        enrichment.run_motif_enrichment(clust_out,
+                                        ref_bed,
+                                        ref_fa, ref_motif,
+                                        args.ame,
+                                        100, 100)
+    except NameError:
+        print('AME is not installed! Please install AME and try again')
 
 
 if __name__ == '__main__':

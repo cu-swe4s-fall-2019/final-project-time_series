@@ -40,8 +40,8 @@ def plot_heatmap(out, counts, num_genes):
     Plot a heatmap of gene expression over time for top num_genes genes with
     the greatest variance
     '''
-    select_counts = counts.iloc[0:num_genes,1:].astype(float)
-    select_counts = select_counts.sub(select_counts.iloc[:,0], axis='rows')
+    select_counts = counts.iloc[0:num_genes, 1:].astype(float)
+    select_counts = select_counts.sub(select_counts.iloc[:, 0], axis='rows')
     gene_names = counts['ACCNUM'].values
     print(gene_names)
 
