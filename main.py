@@ -53,18 +53,20 @@ def parse_args():
 
     return parser.parse_args()
 
+
 def str2bool(v):
     '''
     small function for boolean input
     '''
     if isinstance(v, bool):
-       return v
+        return v
     if v.lower() in ('yes', 'true', 't', 'y', '1'):
         return True
     elif v.lower() in ('no', 'false', 'f', 'n', '0'):
         return False
     else:
         raise argparse.ArgumentTypeError('Boolean value expected.')
+
 
 def read_counts(countfile):
     '''
@@ -91,21 +93,22 @@ def sort_counts(in_counts):
     pd.set_option('mode.chained_assignment', None)
     # Some array's SNR is too low, filter and resort
     order = ['ACCNUM', '0.15H.IFN_1', '0.5H.IFN_1', '0.75H.IFN_1',
-       '1H.IFN_1', '1.25H.IFN_1', '1.5H.IFN_1', '2.25H.IFN_1', '2.75H.IFN_1',
-       '3H.IFN_1', '3.5H.IFN_1', '5H.IFN_1', '5.5H.IFN_1', '6H.IFN_1',
-       '6.5H.IFN_1', '7H.IFN_1', '8H.IFN_1', '9H.IFN_1', '10H.IFN_1',
-       '11H.IFN_1', '12H.IFN_1', '13H.IFN_1', '14H.IFN_1', '15H.IFN_1']
-    in_counts['SYMBOL'] = in_counts['SYMBOL'].replace([' ',',',';'],
-                                                       '_', regex=True)
+             '1H.IFN_1', '1.25H.IFN_1', '1.5H.IFN_1', '2.25H.IFN_1',
+             '2.75H.IFN_1', '3H.IFN_1', '3.5H.IFN_1', '5H.IFN_1',
+             '5.5H.IFN_1', '6H.IFN_1', '6.5H.IFN_1', '7H.IFN_1',
+             '8H.IFN_1', '9H.IFN_1', '10H.IFN_1', '11H.IFN_1',
+             '12H.IFN_1', '13H.IFN_1', '14H.IFN_1', '15H.IFN_1']
+    in_counts['SYMBOL'] = in_counts['SYMBOL'].replace([' ', ',', ';'],
+                                                      '_', regex=True)
     in_counts = in_counts[order]
     # Sort genes by variance
-    x = in_counts.iloc[:,1:].values
+    x = in_counts.iloc[:, 1:].values
     x = StandardScaler().fit_transform(x)
-    x_sub = np.subtract(x, x[:,0].reshape((len(x),1)))
+    x_sub = np.subtract(x, x[:, 0].reshape((len(x), 1)))
     x_var = np.var(x_sub, 1, dtype=np.float64)
     in_counts['Variance'] = x_var
     in_counts.sort_values(by=['Variance'], inplace=True, ascending=False)
-    return in_counts.iloc[0:2000,:-2]
+    return in_counts.iloc[0:2000, :-2]
 
 
 def main():
@@ -126,7 +129,7 @@ def main():
     plot.plot_trajectory(out_dir, counts, num_genes)
 
     # Save formatted and sorted count file
-    counts.to_csv('data/counts_clust.txt', index = False, sep='\t')
+    counts.to_csv('data/counts_clust.txt', index=False, sep='\t')
 
     # Call clust to cluster the genes
     print('Clustering Genes (this might take awhile) ...')
@@ -135,7 +138,8 @@ def main():
         subprocess.call(['clust', 'data/counts_clust.txt',
                          '-o', './clust_out', '-K', args.kmeans])
     else:
-        subprocess.call(['clust', 'data/counts_clust.txt', '-o', './clust_out'])
+        subprocess.call(['clust', 'data/counts_clust.txt',
+                        '-o', './clust_out'])
 
     # Make sure everythin is all set for motif enrichment
     clust_out = './clust_out/Clusters_Objects.tsv'
@@ -147,8 +151,7 @@ def main():
         open(clust_out)
     except FileNotFoundError:
         print('Clustering failed, '
-               +'Clusters_Objects.tsv not found in the output directory')
-
+              + 'Clusters_Objects.tsv not found in the output directory')
 
     print('Motif Enrichment Analysis (this might take awhile) ...')
     enrichment.run_motif_enrichment(clust_out,
