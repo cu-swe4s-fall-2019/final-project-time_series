@@ -32,6 +32,15 @@ Arguments |  Description
 -n  | Number of genes to include for generating heatmap and trajectory plots <Default: 50 >
 -a  | Enable Analysis of motif enrichment (AME) <Default: False>
 
+### Analysis of Motif Enrichment
+The previous step will generate a curated promoter sequence file for each gene cluster. To carry out motif enrichment analysis, one can simply upload the promoter sequence files to [AME online server](http://meme-suite.org/tools/ame) and follow the direction on the webpage to generate the results.
+
+Alternatively, this program includes scripts to automatic run AME locally for all gene clusters. To do that, the user needs to install MEME suite locally. The direction for installation can be found [here](http://meme-suite.org/doc/install.html?man_type=web). Once the installation is complete, the user can enable the automated AME analysis by setting '-a' flag to `True`:
+```
+python main.py -a True
+```
+
+# Analysis Results
 ## Data
 Mouse B cells were treated with Interferon alpha over a time course, the gene expression over time is normalized and visualized in the plot below:
 ![](./out/gene_heatmap.png)
