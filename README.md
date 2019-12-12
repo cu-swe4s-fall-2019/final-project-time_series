@@ -10,6 +10,15 @@ pip install clust
 ```
 conda install -y clust
 ```
+Additionally, several other python packages must be installed prior to running:
+```
+conda install -y pybedtools
+conda install -y seaborn
+conda install -y scikit-learn
+conda install -y numpy
+conda install -y pandas
+conda install -y matplotlib
+```
 
 ### Input count data
 The data is downloaded from NCBI GEO database (https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE75306). The data was originally generated for the publication by [Mostafavi, S., et al.](https://doi.org/10.1016/j.cell.2015.12.032). To simplify the process, the raw microarray data is processed and normalized for you. The unprocessed microarray files along with the final raw counts output can be found in `./data/`.
